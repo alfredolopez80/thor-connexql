@@ -1,0 +1,24 @@
+{
+  "name": "connexql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vechain/connex": "^1.3.2",
+    "@vechain/connex-framework": "^1.0.1",
+    "@vechain/connex.driver": "^1.0.0",
+    "@vechain/connex.driver-nodejs": "^1.0.0",
+    "apollo-server": "^2.8.1",
+    "apollo-server-fastify": "^2.8.1",
+    "fastify": "^2.7.1",
+    "fastify-gql": "^1.3.0",
+    "graphql": "^14.4.2",
+    "graphql-tools": "^4.0.5",
+    "thor-devkit": "^1.0.0"
+  }
+}
