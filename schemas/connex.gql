@@ -1,3 +1,4 @@
+scalar JSON
 scalar Bool
 scalar String
 # Bytes32 is a 32 byte binary string, represented as 0x-prefixed hexadecimal.
@@ -35,19 +36,27 @@ type Account {
     # storage(slot: Bytes32!): Bytes32!
 }
 
+type Meta {
+    blockID: Bytes32
+    blockNumber: Long
+    blockTimestamp: Long
+    txID: Bytes32
+    txOrigin: Bytes32
+}
+
 # Log is an Ethereum event log.
 type Log {
-    # Index is the index of this log in the block.
-    index: Int!
-    # Account is the account which generated this log - this will always
-    # be a contract account.
-    account(block: Long): Account!
+    address: Bytes32
     # Topics is a list of 0-4 indexed topics for the log.
-    topics: [Bytes32!]!
+    topics: [Bytes32!]
     # Data is unindexed data for this log.
-    data: Bytes!
-    # Transaction is the transaction that generated this log entry.
-    transaction: Transaction!
+    data: Bytes 
+    meta: Meta
+    decoded: JSON
+
+    sender: Bytes32
+    recipient: Bytes32
+    amount: Bytes32
 }
 
 # Transaction is an Ethereum transaction.
@@ -118,73 +127,45 @@ input BlockFilterCriteria {
     topics: [[Bytes32!]!]
 }
 
-# CallData represents the data associated with a local contract call.
-# All fields are optional.
-input CallData {
-    # From is the address making the call.
-    from: Address
-    # To is the address the call is sent to.
-    to: Address
-    # Gas is the amount of gas sent with the call.
-    gas: Long
-    # GasPrice is the price, in wei, offered for each unit of gas.
-    gasPrice: BigInt
-    # Value is the value, in wei, sent along with the call.
-    value: BigInt
-    # Data is the data sent to the callee.
-    data: Bytes
+
+input Range {
+    unit: String # time | block
+    from: Long
+    to: Long
 }
 
-# CallResult is the result of a local call operation.
-type CallResult {
-    # Data is the return data of the called contract.
-    data: Bytes!
-    # GasUsed is the amount of gas used by the call, after any refunds.
-    gasUsed: Long!
-    # Status is the result of the call - 1 for success or 0 for failure.
-    status: Long!
+input Criteria {
+    # Event
+    address: Bytes32
+    topic0: String
+    topic1: Bytes32
+    topic2: Bytes32
+    topic3: Bytes32
+    topic4: Bytes32
+
+    # Transfer
+    txOrigin: Bytes32
+    sender: Bytes32
+    recipient: Bytes32
 }
 
 # FilterCriteria encapsulates log filter criteria for searching log entries.
 input FilterCriteria {
-    # FromBlock is the block at which to start searching, inclusive. Defaults
-    # to the latest block if not supplied.
-    fromBlock: Long
-    # ToBlock is the block at which to stop searching, inclusive. Defaults
-    # to the latest block if not supplied.
-    toBlock: Long
-    # Addresses is a list of addresses that are of interest. If this list is
-    # empty, results will not be filtered by address.
-    addresses: [Address!]
-    # Topics list restricts matches to particular event topics. Each event has a list
-  # of topics. Topics matches a prefix of that list. An empty element array matches any
-  # topic. Non-empty elements represent an alternative that matches any of the
-  # contained topics.
-  #
+    kind: String   # event | transfer
+    order: String  # asc | desc
+    range: Range!
+    limit: Long
+    criterias: [Criteria]
+
   # Examples:
   #  - [] or nil          matches any topic list
   #  - [[A]]              matches topic A in first position
   #  - [[], [B]]          matches any topic in first position, B in second position
   #  - [[A], [B]]         matches topic A in first position, B in second position
   #  - [[A, B]], [C, D]]  matches topic (A OR B) in first position, (C OR D) in second position
-    topics: [[Bytes32!]!]
+    # topics: [[Bytes32!]!]
 }
 
-
-# Pending represents the current pending state.
-type Pending {
-  # TransactionCount is the number of transactions in the pending state.
-  transactionCount: Int!
-  # Transactions is a list of transactions in the current pending state.
-  transactions: [Transaction!]
-  # Account fetches an Ethereum account for the pending state.
-  account(address: Address!): Account!
-  # Call executes a local call operation for the pending state.
-  call(data: CallData!): CallResult
-  # EstimateGas estimates the amount of gas that will be required for
-  # successful execution of a transaction for the pending state.
-  estimateGas(data: CallData!): Long!  
-}
 
 type Head {
     id: Bytes32
@@ -227,6 +208,7 @@ type Query {
     # transaction(hash: Bytes32!): Transaction
     # Logs returns log entries matching the provided filter.
     # logs(filter: FilterCriteria!): [Log!]!
+    filter(filter:  FilterCriteria!): [Log!]!
     status: Status
     genesis: Block
     connexVersion: String
