@@ -49,10 +49,10 @@ export const contractFilter = (connex) =>
             filter.order('asc');
         }
 
-        if (!input.criterias) {
-            input.criterias = [];
+        if (!input.filter.criterias) {
+            input.filter.criterias = [];
         }
-        const query = input.criterias.map(i => {
+        const query = input.filter.criterias.map(i => {
             console.log(i, utils.isHex(i.topic0))
             if (i.topic0 && !utils.isHex(i.topic0)) {
                 i.topic0 = getEventSignatureFn(i.topic0).signature;
