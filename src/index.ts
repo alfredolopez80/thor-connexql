@@ -3,18 +3,19 @@ const { Framework } = require('@vechain/connex-framework');
 const GQL = require('fastify-gql')
 const { makeExecutableSchema } = require('graphql-tools')
 
+require('dotenv').config()
 
 const fastify = require('fastify')
 const app = fastify();
 
-const URL = 'https://thor-staging.decent.bet';
+const thorUrl =  process.env.THOR_URL;
 // app.get('/', async function (req, reply) {
 //     const query = '{ hello }'
 //     return reply.graphql(query)
 // })
 
 (async () => {
-    const driver = await connexDriver.Driver.connect(new connexDriver.SimpleNet(URL));
+    const driver = await connexDriver.Driver.connect(new connexDriver.SimpleNet(thorUrl));
     const connex = new Framework(driver);
 
     const { typeDefs, resolvers } = require('./module')(connex);
@@ -24,4 +25,5 @@ const URL = 'https://thor-staging.decent.bet';
     });
 
     await app.listen(3000);
+    console.log(`Listening GraphiQL at port 3000`);
 })();

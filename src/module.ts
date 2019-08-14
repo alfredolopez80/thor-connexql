@@ -1,3 +1,4 @@
+import { filter, contractFilter } from './filter';
 const { gql } = require('apollo-server');
 const fs = require('fs');
 const connexql = fs.readFileSync('./schemas/connex.gql');
@@ -22,35 +23,8 @@ module.exports = (connex) => {
                     ...resp,
                 }
             },
-            filter: async (obj, input) => {                
-                const { kind, range, order, limit, criterias } = input.filter;
-                const filter = connex.thor.filter(kind);
-                if (range) {
-                    filter.range({
-                        unit: range.unit === 'block' ? range.unit : 'time',
-                        from: range.from,
-                        to: range.to,
-                    });
-                }
-
-                if (order) {
-                    filter.order(order);
-                } else {
-                    filter.order('asc');
-                }
-
-                const query = criterias.map(i => {
-                    return {
-                        ...i
-                    };
-                });
-                if (query) {
-                    filter.criteria(query);
-                }
-
-                const logs = await filter.apply(0, limit | 100);
-                return logs;
-            }
+            filter: filter(connex),
+            contractFilter: contractFilter(connex),
         },
         Account: {
             code: async (obj) => {

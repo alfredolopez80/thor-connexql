@@ -107,27 +107,6 @@ type Transaction {
     logs: [Log!]
 }
 
-# BlockFilterCriteria encapsulates log filter criteria for a filter applied
-# to a single block.
-input BlockFilterCriteria {
-    # Addresses is list of addresses that are of interest. If this list is
-    # empty, results will not be filtered by address.
-    addresses: [Address!]
-    # Topics list restricts matches to particular event topics. Each event has a list
-  # of topics. Topics matches a prefix of that list. An empty element array matches any
-  # topic. Non-empty elements represent an alternative that matches any of the
-  # contained topics.
-  #
-  # Examples:
-  #  - [] or nil          matches any topic list
-  #  - [[A]]              matches topic A in first position
-  #  - [[], [B]]          matches any topic in first position, B in second position
-  #  - [[A], [B]]         matches topic A in first position, B in second position
-  #  - [[A, B]], [C, D]]  matches topic (A OR B) in first position, (C OR D) in second position
-    topics: [[Bytes32!]!]
-}
-
-
 input Range {
     unit: String # time | block
     from: Long
@@ -153,7 +132,7 @@ input Criteria {
 input FilterCriteria {
     kind: String   # event | transfer
     order: String  # asc | desc
-    range: Range!
+    range: Range
     limit: Long
     criterias: [Criteria]
 
@@ -166,6 +145,21 @@ input FilterCriteria {
     # topics: [[Bytes32!]!]
 }
 
+input ContractFilterCriteria {
+    indexed: JSON
+    order: String
+    range: Range
+    limit: Long
+    criterias: [Criteria]
+
+  # Examples:
+  #  - [] or nil          matches any topic list
+  #  - [[A]]              matches topic A in first position
+  #  - [[], [B]]          matches any topic in first position, B in second position
+  #  - [[A], [B]]         matches topic A in first position, B in second position
+  #  - [[A, B]], [C, D]]  matches topic (A OR B) in first position, (C OR D) in second position
+    # topics: [[Bytes32!]!]
+}
 
 type Head {
     id: Bytes32
@@ -209,6 +203,8 @@ type Query {
     # Logs returns log entries matching the provided filter.
     # logs(filter: FilterCriteria!): [Log!]!
     filter(filter:  FilterCriteria!): [Log!]!
+    contractFilter(address: Bytes32!,abiSignature: String!,
+    filter:  ContractFilterCriteria!): [Log!]!
     status: Status
     genesis: Block
     connexVersion: String
