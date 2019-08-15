@@ -55,6 +55,7 @@ type Log {
     decoded: JSON
     timestamp: Long
     txDate: String
+    logName: String
 
     sender: Bytes32
     recipient: Bytes32
@@ -206,7 +207,7 @@ type Query {
     # Logs returns log entries matching the provided filter.
     # logs(filter: FilterCriteria!): [Log!]!
     filter(filter:  FilterCriteria!): [Log!]!
-    contractFilter(address: Bytes32!,abiSignature: String!,
+    contractFilter(address: Bytes32!,abiSignatures: [String!]!,
     filter:  ContractFilterCriteria!): [Log!]!
     status: Status
     genesis: Block

@@ -16,7 +16,10 @@ Open graphiql in `http://localhost:3000`
 ```graphql
 {
   contractFilter(
-    abiSignature: "event LogSetQuestOutcome(bytes32 indexed id,address indexed user,uint256 questEntryCount)", 
+    abiSignatures: [
+      "event LogSetQuestOutcome(bytes32 indexed id,address indexed user,uint256 questEntryCount)",
+      "event LogPayForQuest(bytes32 indexed id,address indexed user, address indexed payer,uint256 questEntryCount)"
+    ]
     address: "0xe24dBBEd860aD4b71cf69ED9c0AcEeeDcA99f934", 
     filter: {
       indexed: [{
@@ -33,10 +36,10 @@ Open graphiql in `http://localhost:3000`
       txID
     }
     txDate
+    logName
     timestamp
     address
     decoded
   }
 }
-
 ```
