@@ -53,6 +53,8 @@ type Log {
     data: Bytes 
     meta: Meta
     decoded: JSON
+    timestamp: Long
+    txDate: String
 
     sender: Bytes32
     recipient: Bytes32
@@ -108,7 +110,6 @@ type Transaction {
 }
 
 input Range {
-    unit: String # time | block
     from: Long
     to: Long
 }
@@ -134,6 +135,7 @@ input FilterCriteria {
     order: String  # asc | desc
     range: Range
     limit: Long
+    offset: Long
     criterias: [Criteria]
 
   # Examples:
@@ -150,6 +152,7 @@ input ContractFilterCriteria {
     order: String
     range: Range
     limit: Long
+    offset: Long
     criterias: [Criteria]
 
   # Examples:
