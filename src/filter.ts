@@ -1,10 +1,14 @@
-import { abi, Transaction } from 'thor-devkit';
+import { abi } from 'thor-devkit';
 import * as utils from 'web3-utils';
 import * as ethers from 'ethers';
 import moment from 'moment';
-import { take, flatMap, switchMap, tap, toArray } from 'rxjs/operators';
-import { forkJoin, from } from 'rxjs';
+import { flatMap, toArray } from 'rxjs/operators';
+import { from } from 'rxjs';
 
+/**
+ * Creates a thor-devkit event signature
+ * @param topic event signature string
+ */
 const getEventSignatureFn = (topic: string) => {
     const splitParen = topic.split('(');
     const fnName = splitParen[0];
@@ -26,6 +30,12 @@ const getEventSignatureFn = (topic: string) => {
     return fn;
 }
 
+/**
+ * Queries connex contract filter
+ * @param visitor account visitor
+ * @param input GraphQL input
+ * @param abi Ethers ABI object
+ */
 const eventFilter = async (visitor: any, input: any, abi: ethers.ethers.utils.FunctionFragment | ethers.ethers.utils.EventFragment): Promise<any> => {
     const { range, offset, order, limit } = input.filter;
     let indexed = [{}];
@@ -173,8 +183,6 @@ export const filter = (connex) =>
             filter.criteria(query);
         }
 
-        const logs = await filter.apply(0, limit | 200);
-        // console.log(logs[0].data)
-        // console.log(Transaction.decode(logs[0].data))
+        const logs = await filter.apply(0, limit || 200);
         return logs;
     }

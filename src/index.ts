@@ -9,10 +9,6 @@ const fastify = require('fastify')
 const app = fastify();
 
 const thorUrl =  process.env.THOR_URL;
-// app.get('/', async function (req, reply) {
-//     const query = '{ hello }'
-//     return reply.graphql(query)
-// })
 
 (async () => {
     const driver = await connexDriver.Driver.connect(new connexDriver.SimpleNet(thorUrl));
