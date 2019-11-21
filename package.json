@@ -1,8 +1,8 @@
 {
-  "name": "connexql",
-  "version": "1.0.0",
+  "name": "@decent-bet/connexql",
+  "version": "1.0.7",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "start": "ts-node-dev src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"

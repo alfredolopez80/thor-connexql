@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": { "*": ["types/*"] },
     "module": "commonjs",
-    "target": "esnext",
     "moduleResolution": "node",
     "sourceMap": false,
     "outDir": "lib",
@@ -14,6 +13,7 @@
     "preserveConstEnums": true,
     "emitDecoratorMetadata": true,
     "declaration": true,
+    "target": "es2017"
   },
   "include": [
     "./src"

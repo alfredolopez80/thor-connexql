@@ -128,7 +128,7 @@ export const contractFilter = (connex) =>
         )
         .toPromise();
 
-        unsorted = unsorted.flat();
+        unsorted = (unsorted as any).flat();
         
         const dateSort = (obj1, obj2) => {
             if (obj1.timestamp > obj2.timestamp) return -1;
