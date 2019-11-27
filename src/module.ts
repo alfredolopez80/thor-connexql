@@ -1,12 +1,11 @@
+import { connexSchema } from './connex';
 import { filter, contractFilter } from './filter';
 import { account, accountCode } from './account';
 const { gql } = require('apollo-server');
-const fs = require('fs');
-const connexql = fs.readFileSync('./schemas/connex.gql');
 const GraphQLJSON = require('graphql-type-json');
 
 // The GraphQL schema
-const typeDefs = gql(connexql.toString('utf8'));
+const typeDefs = gql(connexSchema);
 
 
 module.exports = (connex) => {

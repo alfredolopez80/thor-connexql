@@ -1,25 +1,15 @@
-const connexDriver = require('@vechain/connex.driver-nodejs');
-const { Framework } = require('@vechain/connex-framework');
-const GQL = require('fastify-gql')
-const { makeExecutableSchema } = require('graphql-tools')
+import { makeExecutableSchema } from 'graphql-tools';
+import { graphql, GraphQLSchema } from 'graphql';
 
-require('dotenv').config()
+export class ConnexGraphqlClient {
+    private schema: GraphQLSchema;
+    constructor(public connex: any) {
+        const { typeDefs, resolvers } = require('./module')(connex);
+        this.schema = makeExecutableSchema({ typeDefs, resolvers });
+    }
 
-const fastify = require('fastify')
-const app = fastify();
+    runQuery(query: string) {
+        return graphql(this.schema, query);
+    }
 
-const thorUrl =  process.env.THOR_URL;
-
-(async () => {
-    const driver = await connexDriver.Driver.connect(new connexDriver.SimpleNet(thorUrl));
-    const connex = new Framework(driver);
-
-    const { typeDefs, resolvers } = require('./module')(connex);
-    app.register(GQL, {
-        schema: makeExecutableSchema({ typeDefs, resolvers }),
-        graphiql: true,
-    });
-
-    await app.listen(3000);
-    console.log(`Listening GraphiQL at port 3000`);
-})();
+}

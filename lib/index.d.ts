@@ -1,7 +1,6 @@
-declare const connexDriver: any;
-declare const Framework: any;
-declare const GQL: any;
-declare const makeExecutableSchema: any;
-declare const fastify: any;
-declare const app: any;
-declare const thorUrl: string;
+export declare class ConnexGraphqlClient {
+    connex: any;
+    private schema;
+    constructor(connex: any);
+    runQuery(query: string): Promise<import("graphql").ExecutionResult<import("graphql/execution/execute").ExecutionResultDataDefault>>;
+}
