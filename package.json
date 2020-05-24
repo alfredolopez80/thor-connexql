@@ -26,8 +26,9 @@
     "moment": "^2.24.0",
     "rxjs": "^6.5.2",
     "thor-devkit": "^1.0.0",
+    "thorify": "^1.5.2",
     "typescript": "^3.5.3",
-    "web3": "^1.2.1"
+    "web3": "^1.2.8"
   },
   "devDependencies": {
     "nodemon": "^1.19.1",

@@ -1,6 +1,8 @@
-import { connexSchema } from './connex';
+import { connexSchema } from './typedSchema';
 import { filter, contractFilter } from './filter';
+import { contractRead} from './contractRead';
 import { account, accountCode } from './account';
+import { sendRawTransaction } from './transaction';
 const { gql } = require('apollo-server');
 const GraphQLJSON = require('graphql-type-json');
 
@@ -19,9 +21,13 @@ module.exports = (connex) => {
             account: account(connex),
             filter: filter(connex),
             contractFilter: contractFilter(connex),
+            contractRead: contractRead(connex),
         },
         Account: {
             code: accountCode(connex),
+        },
+        Mutation: {
+            sendRawTransaction: sendRawTransaction(connex)
         }
     };
 
