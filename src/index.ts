@@ -10,6 +10,7 @@ const fastify = require('fastify');
 const app = fastify();
 
 const thorUrl =  process.env.THOR_URL;
+const port = process.env.PORT;
 
 (async () => {
     const driver = await Driver.connect(new SimpleNet(thorUrl));
@@ -21,6 +22,6 @@ const thorUrl =  process.env.THOR_URL;
         graphiql: true,
     });
 
-    await app.listen(3000);
-    console.log(`Listening GraphiQL at port 3000`);
+    await app.listen(port, '0.0.0.0');
+    console.log(`Listening GraphiQL at port ${port}`);
 })();
