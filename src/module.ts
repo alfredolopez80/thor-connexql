@@ -1,11 +1,11 @@
-import { connexSchema } from './connex';
+import { connexSchema as typeDefs } from './connex';
 import { filter, contractFilter } from './filter';
 import { account, accountCode } from './account';
-const { gql } = require('apollo-server');
+// const { gql } = require('apollo-server');
 const GraphQLJSON = require('graphql-type-json');
 
 // The GraphQL schema
-const typeDefs = gql(connexSchema);
+// const typeDefs = gql(connexSchema);
 
 
 module.exports = (connex) => {
