@@ -20,7 +20,7 @@ module.exports = (connex) => {
             account: account(connex),
             filter: filter(connex),
             contractFilter: contractFilter(connex),
-            contractRead: contractRead(connex),
+            contractRead: contractRead(),
         },
         Account: {
             code: accountCode(connex),
