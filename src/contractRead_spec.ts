@@ -19,6 +19,6 @@ describe("#contractRead specs", function () {
         );
         const resp = await contractRead()(energyContractAddress, balanceOfAbiSignature, paramsHex);
 
-        expect(resp).equal('0');
+        expect(resp).equal('5000000125000000000000');
     });
 });
