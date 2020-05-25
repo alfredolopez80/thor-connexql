@@ -26,7 +26,7 @@ module.exports = (connex) => {
             code: accountCode(connex),
         },
         Mutation: {
-            sendRawTransaction: sendRawTransaction(connex)
+            sendRawTransaction: sendRawTransaction()
         }
     };
 
