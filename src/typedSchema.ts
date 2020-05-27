@@ -1,8 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.connexSchema = void 0;
-exports.connexSchema = `
-scalar JSON
+export const connexSchema = `scalar JSON
 scalar Bool
 scalar String
 # Bytes32 is a 32 byte binary string, represented as 0x-prefixed hexadecimal.
@@ -213,6 +209,7 @@ type Query {
     filter(filter:  FilterCriteria!): [Log!]!
     contractFilter(address: Bytes32!,abiSignatures: [String!]!,
     filter:  ContractFilterCriteria!): [Log!]!
+    contractRead(address: Bytes32!,abiSignature: String!, params:  Bytes!): JSON
     status: Status
     genesis: Block
     connexVersion: String
@@ -222,5 +219,4 @@ type Query {
 type Mutation {
     # SendRawTransaction sends an RLP-encoded transaction to the network.
     sendRawTransaction(data: Bytes!): Bytes32!
-}
-`;
+}`;
