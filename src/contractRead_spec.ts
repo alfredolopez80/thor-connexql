@@ -17,6 +17,8 @@ describe("#contractRead specs", function () {
             ['address'],
             [user]
         );
+
+        console.log(paramsHex)
         const resp = await contractRead()(energyContractAddress, balanceOfAbiSignature, paramsHex);
 
         expect(resp).equal('5000000125000000000000');
