@@ -19,7 +19,7 @@ describe("#contractRead specs", function () {
         );
 
         console.log(paramsHex)
-        const resp = await contractRead()(energyContractAddress, balanceOfAbiSignature, paramsHex);
+        const resp = await contractRead()(null, { energyContractAddress, balanceOfAbiSignature, paramsHex });
 
         expect(resp).equal('5000000125000000000000');
     });
