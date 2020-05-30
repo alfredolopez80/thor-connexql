@@ -4,7 +4,8 @@ import { ethers } from 'ethers';
 const Web3 = require('web3');
 const { thorify } = require('thorify');
 
-export const contractRead = () => async (address: string, abiSignature, params: string) => {
+export const contractRead = () => async (obj, input) => {
+    const { address, abiSignature, params } = input;
     const ethersAbiStruct = ethers.utils.parseSignature(abiSignature);  
     const jsonABI = [{
         ...ethersAbiStruct

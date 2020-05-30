@@ -46,7 +46,7 @@ describe("#sendRawTransaction specs", function () {
         tx.signature = cry.secp256k1.sign(signingHash, privKey);
         
         let raw = tx.encode()
-        const resp = await sendRawTransaction()(`0x${raw.toString('hex')}`);
+        const resp = await sendRawTransaction()(null, { payload: `0x${raw.toString('hex')}` });
 
         expect(resp.toString()).equal('Error: tx rejected: insufficient energy');
     });
