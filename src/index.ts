@@ -22,7 +22,7 @@ const port = process.env.PORT;
         graphiql: true,
     });
 
-    fastify.register(require('fastify-cors'), {
+    app.register(require('fastify-cors'), {
         origin: false
     })
 
